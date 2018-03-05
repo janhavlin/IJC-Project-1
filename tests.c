@@ -1,5 +1,20 @@
 #include <stdio.h>
 #include "bit_array.h"
+#include "eratosthenes.c"
+bit_array_create(pole_prime, 10000L);
+
+// void Eratosthenes(bit_array_t pole)
+// {
+	// bit_array_setbit(pole, 0, 1);
+	// bit_array_setbit(pole, 1, 1);
+	// for (int i = 2; i <	sqrt(100); i++)
+	// {
+		// for (int j = 2; j*i < bit_array_size(pole_prime); j++)
+		// {
+			// bit_array_setbit(pole, j*i, 1);
+		// }
+	// }
+// }
 
 int main(int argc, char *argv[])
 {
@@ -43,7 +58,7 @@ int main(int argc, char *argv[])
 		printf("Nastavuju %d. index na 0\n", values_delete[i]); bit_array_setbit(pole, values_delete[i], 0);
 	}
 	printf("\n\nExpected 0 na indexech: 0, 2, 5, 8, 12, 18, 26, 33, 64, 65, 91\n");
-	for (int i = 0; i < 100L; i++)
+	for (int i = 0; i < 100; i++)
 	{
 		printf("%d: %d\n", i, bit_array_getbit(pole, i));
 	}
@@ -52,23 +67,26 @@ int main(int argc, char *argv[])
 	printf("Nastavuju %d. index na 1, expected: OVERFLOW ERROR, got: ", 100); bit_array_setbit(pole, 100, 1);	
 	printf("Ziskavam %d. index, expected: OVERFLOW ERROR, got: ", 100); bit_array_getbit(pole, 100);
 	
-	// printf("%d\n", (sizeof(unsigned long)*8));
-	// 	// printf("%lu\n", sizeof(int));
-	// 		// printf("%d\n", 1 << 65/(sizeof(unsigned long)*8));
-	// 			// printf("Nastavuju %d. index na 1\n", 65); bit_array_setbit(pole, 65, 1);
-	// 				// printf("%d. index expected: 1, got: %lu\n", 65, bit_array_getbit(pole, 65));
-	// 					
-	// 						
-	// 						/* 	printf("\n\nNastavuju kazdy treti index na 1\n");	
-	// 							for (int i = 0; i < 100; i = i + 3)
-	// 								{
-	// 											bit_array_setbit(pole, i, 1);
-	// 												}
-	// 													
-	// 														for (int i = 0; i < 100; i++)
-	// 															{
-	// 																	printf("%d: %lu\n", i, bit_array_getbit(pole, i));
-	// 																		} */
-	// 																			
+	puts("\n********* ERATOSTHENES TEST *********");
+	// puts("Tisk noveho pole:");
+	// for (int i = 0; i < bit_array_size(pole_prime); i++)
+	// {
+		// printf("%d: %d\n", i, bit_array_getbit(pole_prime, i));
+	// }
+	
+	Eratosthenes(pole_prime);puts("\nZavolani Eratosthenes()");
+	
+	// puts("\nTISK CELEHO POLE:");
+	// for (int i = 0; i < bit_array_size(pole_prime); i++)
+	// {
+		// printf("%d: %d\n", i, bit_array_getbit(pole_prime, i));
+	// }
+	
+	puts("\nTISK PRVOCISEL:");
+	for (int i = 0; i < bit_array_size(pole_prime); i++)
+	{
+		if (bit_array_getbit(pole_prime, i) == 0)
+			printf("%d ", i);
+	}
 	return 0;
 	}
