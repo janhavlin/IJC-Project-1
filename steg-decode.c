@@ -1,0 +1,55 @@
+// steg-decode.c
+// Řešení IJC-DU1, příklad b), 20.3.2018
+// Autor: Jan Havlín, FIT
+// Přeloženo: gcc 7.1
+
+#include <stdio.h>
+#include "ppm.h"
+#include "ppm.c"
+#include "bit_array.h"
+#include "eratosthenes.c"
+
+int main(int argc, char *argv[])
+{
+	if (argc != 2)
+		puts("ERROR");
+
+	struct ppm* img = ppm_read(argv[1]);
+	bit_array_create(pole, 3000000L);
+	Eratosthenes(pole);
+	
+	int n = 0;
+	char tmp_byte = 0;
+	for (unsigned long i = 11; i < bit_array_size(pole) && i < (3 * img->xsize * img->ysize); i++)
+	{
+		if (bit_array_getbit(pole, i) == 0)
+		{
+			char tmp_bit = img->data[i];
+			tmp_bit &= 1;
+			tmp_bit = tmp_bit << n;
+			tmp_byte |= tmp_bit;
+
+			// Nacteni 8 bitu, vypis charu, pripadne exit pri '\0'
+			if (n == 7)
+			{
+				if (tmp_byte == '\0')
+				{
+					printf("KONEC\n");
+					free(img);
+					return 0;
+				}
+				else
+				{
+					printf("%c", tmp_byte);
+				}
+				
+				// Vynulovani hodnot pro dalsi iteraci jednoho bytu
+				n = 0;
+				tmp_byte = 0;
+			}
+			else
+				n++;
+		}
+	}
+	return 1;
+}
