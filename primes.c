@@ -10,12 +10,12 @@
 
 int main()
 {	// Zjistit, jestli toto patri do eratosthenes.c
-	puts("bla1\n");
+	// puts("Vytvareni bitoveho pole o velikosti 222000000:");
 	bit_array_create(pole, 222000000L);
 	// bit_array_create(pole, 10000L);
-	puts("bla2\n");
+	// puts("Volani Eratosthenes nad timto bitovym polem:");
 	Eratosthenes(pole);
-	puts("bla3\n");
+	// puts("Vypis vsech prvocisel v poli:");
 	
 	for (unsigned long i = 0; i < bit_array_size(pole); i++)
 	{
