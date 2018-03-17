@@ -8,6 +8,7 @@
 #include "ppm.c"
 #include "bit_array.h"
 #include "eratosthenes.c"
+#include "error.h"
 
 int main(int argc, char *argv[])
 {
@@ -15,6 +16,14 @@ int main(int argc, char *argv[])
 		puts("ERROR");
 
 	struct ppm* img = ppm_read(argv[1]);
+	if (img == NULL)
+	{
+		error_exit("Chyba pri cteni souboru.\n");
+	}
+	
+	ppm_write(img, "du1-obrazek-write.ppm");
+	
+	// Limit 3*1000*1000 ze zadani, abychom mohli staticky alokovat pole
 	bit_array_create(pole, 3000000L);
 	Eratosthenes(pole);
 	
@@ -34,7 +43,6 @@ int main(int argc, char *argv[])
 			{
 				if (tmp_byte == '\0')
 				{
-					printf("KONEC\n");
 					free(img);
 					return 0;
 				}
@@ -51,5 +59,6 @@ int main(int argc, char *argv[])
 				n++;
 		}
 	}
+	free(img);
 	return 1;
 }
