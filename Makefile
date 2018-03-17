@@ -6,7 +6,7 @@ test:
 	./tests
 	
 prime:
-	# gcc primes.c -o primes -O2 $(CFLAGS)
+	gcc primes.c -o primes -O2 $(CFLAGS)
 	gcc -DUSE_INLINE primes.c -o primes-i -O2 $(CFLAGS)
 	
 ppm:
