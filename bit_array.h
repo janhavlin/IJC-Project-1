@@ -6,6 +6,9 @@
 #ifndef BIT_ARRAY_H_
 #define BIT_ARRAY_H_
 
+#include "error.h"
+#include "error.c"
+
 typedef unsigned long bit_array_t[];
 
 #define GET_INDEX(index) 1 + index/(sizeof(unsigned long)*8)
@@ -16,13 +19,15 @@ typedef unsigned long bit_array_t[];
 #define bit_array_size(jmeno_pole) (jmeno_pole[0])
 
 
-#define SETBIT_DECIDE(jmeno_pole, index, vyraz) ((vyraz == 0L) ? SETBIT_ZERO(jmeno_pole, index) : SETBIT_ONE(jmeno_pole, index))
+#ifndef USE_INLINE
+#define SETBIT_DECIDE(jmeno_pole, index, vyraz) ((vyraz == 0) ? SETBIT_ZERO(jmeno_pole, index) : SETBIT_ONE(jmeno_pole, index))
 #define SETBIT_ZERO(jmeno_pole, index) (jmeno_pole[GET_INDEX(index)] &= ~((unsigned long)1 << GET_SHIFT(index)))
 #define SETBIT_ONE(jmeno_pole, index) (jmeno_pole[GET_INDEX(index)] |= ((unsigned long)1 << GET_SHIFT(index)))
 
-#define bit_array_setbit(jmeno_pole, index, vyraz) ((index >= bit_array_size(jmeno_pole)) ? puts("OVERFLOW ERROR") : SETBIT_DECIDE(jmeno_pole, index, vyraz))
+#define OVERFLOW(jmeno_pole, index) (error_exit("Index %lu mimo rozsah 0..%lu\n", (unsigned long)index, (unsigned long)bit_array_size(jmeno_pole)))
 
-#ifndef USE_INLINE
+// #define bit_array_setbit(jmeno_pole, index, vyraz) ((index >= bit_array_size(jmeno_pole)) ? puts("OVERFLOW ERROR") : SETBIT_DECIDE(jmeno_pole, index, vyraz))
+#define bit_array_setbit(jmeno_pole, index, vyraz) ((index >= bit_array_size(jmeno_pole)) ? OVERFLOW(jmeno_pole, index) : SETBIT_DECIDE(jmeno_pole, index, vyraz))
 
 #define GETBIT_GET(jmeno_pole, index) (!!((jmeno_pole[GET_INDEX(index)]) & ((unsigned long)1 << GET_SHIFT(index))))
 
@@ -30,11 +35,14 @@ typedef unsigned long bit_array_t[];
 
 #else
 
+	
+
+	
 inline void bit_array_setbit(bit_array_t jmeno_pole, unsigned long index, unsigned long vyraz)
 {
-	if (index >= bit_array_size(jmeno_pole)
+	if (index >= bit_array_size(jmeno_pole))
 	{
-		puts("OVERFLOW ERROR");
+		error_exit("Index %lu mimo rozsah 0..%lu\n", (unsigned long)index, (unsigned long)bit_array_size(jmeno_pole));
 	}
 	else if(vyraz == 0)
 	{
@@ -50,7 +58,7 @@ inline unsigned long bit_array_getbit(bit_array_t jmeno_pole, unsigned long inde
 {
 	if (index >= bit_array_size(jmeno_pole))
 	{
-		puts("OVERFLOW ERROR");
+		error_exit("Index %lu mimo rozsah 0..%lu\n", (unsigned long)index, (unsigned long)bit_array_size(jmeno_pole));
 	}
 	else
 	{
