@@ -1,7 +1,8 @@
 // ppm.h
 // Řešení IJC-DU1, příklad b), 20.3.2018
 // Autor: Jan Havlín, FIT
-// Přeloženo: gcc 7.1
+// Přeloženo: gcc 6.4.0
+// Popis: Funkce pro čtení a zápis do souboru formátu .ppm
 
 #ifndef PPM_H_
 #define PPM_H_

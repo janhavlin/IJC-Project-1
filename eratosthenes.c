@@ -1,24 +1,16 @@
 // eratosthenes.c
 // Řešení IJC-DU1, příklad a), 20.3.2018
 // Autor: Jan Havlín, FIT
-// Přeloženo: gcc 7.1
+// Přeloženo: gcc 6.4.0
+// Popis: Algoritmus Eratosthenovo síto
+// Časy na stroji Merlin:
+//	makra: 16.282s
+//	inline: 16.669s
 
-// Merlin: ne-inline: 11s, inline: 10s
-
-// ne-inline
-// real    2m5.583s
-// user    0m16.282s
-// sys     0m49.325s
-
-// inline
-// real    2m0.117s
-// user    0m16.669s
-// sys     0m49.138s
 
 #include <math.h>
+#include "eratosthenes.h"
 #include "bit_array.h"
-
-// bit_array_create(pole, 222000000L);
 
 void Eratosthenes(bit_array_t pole)
 {
